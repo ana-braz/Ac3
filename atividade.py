@@ -1,14 +1,29 @@
-INÍCIO = int(input())
-FIM = int(input())
-primo = 0
+from flask import Flask, request
 
-for i in range(INÍCIO, FIM+1):
-    if i > 1:
-        for x in range(2, i):
-            if(i % x == 0):
-                break
-        else:
-            print(i, ',', end='')
-            primo += 1
+app = Flask(__name__)
 
-print(f'primos: {primo}')
+@app.route('/')
+def nao_entre_em_panico():
+    qtdTotal = 100
+    primos = "1,2,"
+    candPrimo = 3
+    qtdEncontrados = 2
+    ehPrimo = 1
+    
+    while qtdEncontrados < qtdTotal:
+       for i in range (2, candPrimo):
+         if candPrimo % i == 0:
+           ehPrimo = 0
+           break
+       if ehPrimo == 1:
+         primos = primos + str(candPrimo) + ","
+         qtdEncontrados+=1
+         if qtdEncontrados % 10 == 0:
+           primos += "<br>"
+       ehPrimo = 1
+       candPrimo+=2
+                 
+    return primos
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5000)
